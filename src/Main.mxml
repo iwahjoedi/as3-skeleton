@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="500" height="500">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.pxldesigns.flexTasks.LabelBuilder;
+			
+			[Bindable]
+			private var labelBuilder:LabelBuilder = new LabelBuilder();
+			
+		]]>
+	</mx:Script>
+
+	<mx:Label text="{labelBuilder.buildLabel()}" fontSize="15" fontWeight="bold" fontStyle="italic" x="50" y="50"/>
+	
+</mx:Application>

@@ -1,0 +1,42 @@
+<project name="Flex Ant Tasks Build Script" default="compile flex project">
+
+	<!-- load previously defined configuration properties file -->
+	<property file="build.properties" />
+	
+	<!-- points to our flexTasks.jar we copied to the libs folder to distribute with the project -->
+    <taskdef resource="flexTasks.tasks" >
+        <classpath> 
+            <pathelement path="${FLEX_HOME}/ant/lib/flexTasks.jar"/>
+            <pathelement path="${FLEX_HOME}/lib/flexTasks.jar"/> 
+            <fileset dir="${FLEX_HOME}/lib"> 
+                <include name="**/*.jar"/>
+            </fileset> 
+        </classpath>
+    </taskdef>
+
+	<!-- <taskdef resource="flexTasks.tasks" classpath="${basedir}/libs/flexTasks.jar"/>  -->
+	
+	<!-- delete and recreate the DEPLOY dir -->
+	<target name="init">
+		<delete dir="${DEPLOY_DIR}" />
+		<mkdir dir="${DEPLOY_DIR}" />		
+	</target>
+	
+	<!-- Build and output the Main.swf-->
+	<target name="compile flex project" depends="init">
+		<mxmlc file="${SRC_DIR}/Main.as" output="${DEPLOY_DIR}/Main.swf" compiler.as3="true">
+	        <load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
+	        <source-path path-element="${FLEX_HOME}/frameworks"/>
+			<compiler.debug>false</compiler.debug>			
+		</mxmlc>
+        <copy file="${SRC_DIR}/index.html" todir="${DEPLOY_DIR}"/>
+	</target>
+
+    <!-- run application -->
+    <target name="run">
+        <exec dir="${SRC_DIR}" executable="/usr/bin/chromium-browser" >
+            <arg line="${DEPLOY_DIR}/index.html"/>
+        </exec>
+    </target>
+
+</project>
